@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         title: 'Namer App',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         ),
         home: MyHomePage(),
       ),
@@ -27,9 +27,19 @@ class MyApp extends StatelessWidget {
 
 class MyAppState extends ChangeNotifier {
   WordPair current = WordPair.random();
+  var favourites = <WordPair>[];
 
   void kek() {
     current = WordPair.random();
+    notifyListeners();
+  }
+
+  void togglefav() {
+    if (favourites.contains(current)) {
+      favourites.remove(current);
+    } else {
+      favourites.add(current);
+    }
     notifyListeners();
   }
 }
@@ -41,17 +51,32 @@ class MyHomePage extends StatelessWidget {
     var pair = appState.current;
 
     return Scaffold(
-      body: Column(
-        children: [
-          Text('A random idea nigga yes:'),
-          BigCard(appState: appState),
-          ElevatedButton(
-              onPressed: () {
-                print("button pressed");
-                appState.kek();
-              },
-              child: Text("wow"))
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            BigCard(appState: appState),
+            SizedBox(height: 20),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      print(" like button pressed");
+                      appState.togglefav();
+                    },
+                    child: Text("Like")),
+                SizedBox(width: 20),
+                ElevatedButton(
+                    onPressed: () {
+                      print("button pressed");
+                      appState.kek();
+                    },
+                    child: Text("wow")),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -75,7 +100,7 @@ class BigCard extends StatelessWidget {
       color: theme.colorScheme.primary,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text(appState.current.asLowerCase,style: style),
+        child: Text(appState.current.asLowerCase, style: style),
       ),
     );
   }
