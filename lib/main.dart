@@ -62,6 +62,8 @@ class _MyHomePageState extends State<MyHomePage> {
       case 1:
         page = Placeholder();
         break;
+      default:
+        throw UnimplementedError('no widget for $selectedIndex');
     }
 
     return Scaffold(
