@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
         page = Generator();
         break;
       case 1:
-        page = Placeholder();
+        page = FavouritesPage();
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
@@ -103,6 +103,28 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       );
     });
+  }
+}
+
+class FavouritesPage extends StatelessWidget {
+  const FavouritesPage({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    var myState = context.watch<MyAppState>();
+    return ListView(
+      children: myState.favourites.map((e) {
+        return ListTile(
+          leading: Icon(Icons.tv),
+          title: Text(e.asString),
+          onTap: () {
+            print("tapped nigga");
+          },
+        );
+      }).toList(),
+    );
   }
 }
 
